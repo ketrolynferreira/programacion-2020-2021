@@ -33,6 +33,14 @@ public class Curso {
         this.letra = letra;
         this.listaPersonas = listaPersonas;
     }
+
+    public Curso(int idCurso, String nombre, String ano, String letra) {
+        this.idCurso = idCurso;
+        this.nombre = nombre;
+        this.ano = ano;
+        this.letra = letra;
+    }
+    
     
     
     // Gets & Sets

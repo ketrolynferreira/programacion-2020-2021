@@ -14,7 +14,7 @@ public class Persona {
     private String dni;
     private String nombre;
     private String apellidos;
-    private int idCursos;
+    private Curso curso;
     // Constructores
 
     public Persona() {
@@ -26,11 +26,11 @@ public class Persona {
         this.apellidos = apellidos;
     }
 
-    public Persona(String dni, String nombre, String apellidos, int idCursos) {
+    public Persona(String dni, String nombre, String apellidos, Curso curso) {
         this.dni = dni;
         this.nombre = nombre;
         this.apellidos = apellidos;
-        this.idCursos = idCursos;
+        this.curso = curso;
     }
     
     
@@ -60,12 +60,12 @@ public class Persona {
         this.apellidos = apellidos;
     }
 
-    public int getIdCursos() {
-        return idCursos;
+    public Curso getcurso() {
+        return curso;
     }
 
-    public void setIdCursos(int idCursos) {
-        this.idCursos = idCursos;
+    public void setcurso(Curso curso) {
+        this.curso = curso;
     }
     
     

@@ -5,8 +5,12 @@
  */
 package Vista;
 
+import Exceptions.CursoNoEncontrado;
 import Exceptions.DatoNoValido;
 import Exceptions.DniNoValido;
+import Modelo.Curso;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import t7p1eje3.Controlador;
 import static javax.swing.JOptionPane.*;
 
@@ -30,7 +34,12 @@ public class EntradaDatos extends javax.swing.JFrame {
         this.tfDni.setText("");
         this.tfNombre.setText("");
         this.tfApellidos.setText("");
-        this.tfCurso.setText("");
+        this.tfCursoAno.setText("");
+        this.tfCursoLetra.setText("");
+    }
+
+    public void mensajePersonaExiste() {
+        showMessageDialog(this, "Dni ya cadastrado ");
     }
 
     /**
@@ -49,10 +58,12 @@ public class EntradaDatos extends javax.swing.JFrame {
         tfDni = new javax.swing.JTextField();
         tfNombre = new javax.swing.JTextField();
         tfApellidos = new javax.swing.JTextField();
-        tfCurso = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        tfCursoLetra = new javax.swing.JTextField();
+        tfCursoAno = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,7 +77,13 @@ public class EntradaDatos extends javax.swing.JFrame {
         jLabel3.setText("Apellidos");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel4.setText("Cod Curso");
+        jLabel4.setText("Año Curso");
+
+        tfDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfDniActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jButton1.setText("Aceptar");
@@ -86,6 +103,18 @@ public class EntradaDatos extends javax.swing.JFrame {
 
         jLabel5.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel5.setText("Datos del Alumno");
+
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel6.setText("Letra Curso");
+
+        tfCursoAno.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tfCursoAno.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        tfCursoAno.setToolTipText("Primero, Segundo, Tercero, Cuarto");
+        tfCursoAno.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfCursoAnoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -122,8 +151,13 @@ public class EntradaDatos extends javax.swing.JFrame {
                                 .addComponent(jButton2))
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(tfCurso, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(18, Short.MAX_VALUE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(tfCursoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(tfCursoAno, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel6)))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,8 +179,12 @@ public class EntradaDatos extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(tfCurso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                    .addComponent(tfCursoAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(tfCursoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -157,31 +195,52 @@ public class EntradaDatos extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         try {
+            Curso curso = Controlador.buscarCurso(this.tfCursoAno.getText(), this.tfCursoLetra.getText());
+            if (curso == null) {
+                throw new CursoNoEncontrado();
+            }
+
+            Pattern padron = Pattern.compile("^[0-9]{8}[a-zA-Z]{1}$");
+            Matcher validar = padron.matcher(this.tfDni.getText());
+            if (validar.matches()) {
+                Controlador.buscarDni(this.tfDni.getText());
+            } else {
+                throw new DniNoValido();
+            }
+
             if (this.tfDni.getText().isEmpty() || this.tfNombre.getText().isEmpty() || this.tfApellidos.getText().isEmpty()
-                    || this.tfCurso.getText().isEmpty()) {
+                    || this.tfCursoAno.getText().isEmpty() || this.tfCursoLetra.getText().isEmpty()) {
                 throw new DatoNoValido();
+
             }
-            int x;
-            for(x=0;x<this.tfDni.getText().length() ;x++){
-                if(this.tfDni.getText().length()>9){
-                    throw new DniNoValido();
-                }
-            }
-             
-            String curso = String.valueOf(this.tfCurso.getText());
-            Controlador.guardarDatos(this.tfDni.getText(), this.tfNombre.getText(), this.tfApellidos.getText(), curso);
+            Controlador.guardarDatos(this.tfDni.getText(), this.tfNombre.getText(), this.tfApellidos.getText(),
+                    this.tfCursoAno.getText(), this.tfCursoLetra.getText());
+
+        } catch (CursoNoEncontrado cne) {
+            showMessageDialog(this, "Error, Curso no Encontrado");
+
+        } catch (DniNoValido dninv) {
+            showMessageDialog(this, "Error, Solo son 9 digitos para el DNI");
+
         } catch (DatoNoValido dnv) {
             showMessageDialog(this, "Error, los campos no pueden esta vacíos");
-        }catch( DniNoValido dnv){
-            showMessageDialog(this, "Error, Solo son 9 digitos para el DNI");
+
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Controlador.volverVentanaTipo();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tfDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfDniActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfDniActionPerformed
+
+    private void tfCursoAnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfCursoAnoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfCursoAnoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -226,8 +285,10 @@ public class EntradaDatos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JTextField tfApellidos;
-    private javax.swing.JTextField tfCurso;
+    private javax.swing.JTextField tfCursoAno;
+    private javax.swing.JTextField tfCursoLetra;
     private javax.swing.JTextField tfDni;
     private javax.swing.JTextField tfNombre;
     // End of variables declaration//GEN-END:variables

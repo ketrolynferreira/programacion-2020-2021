@@ -23,6 +23,16 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
     }
     public void mensaje(){
     showMessageDialog(this, "Alumno Antiguou Matriculado");
+    this.tfCursoAno.setText("");
+    this.tfCursoLetra.setText("");
+    
+    }
+    public void mensajeBorrar(){
+    showMessageDialog(this, "Alumno Antiguou Borrado");
+    
+    }
+    public void mensajeNecesitaCadastrar(){
+    showMessageDialog(this, "No eres alumno antiguo, cadastrate primero");
     }
 
     /**
@@ -40,7 +50,9 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         bBorrar = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        tfCodC = new javax.swing.JTextField();
+        tfCursoAno = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        tfCursoLetra = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,7 +77,10 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Cod Curso");
+        jLabel3.setText("Curso Año");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Letra ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -91,10 +106,14 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
                                     .addComponent(tfdniaa, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGap(41, 41, 41)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(tfCodC, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tfCursoAno, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(tfCursoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -108,8 +127,12 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(tfCodC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
+                    .addComponent(tfCursoAno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(tfCursoLetra, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(bBorrar))
@@ -121,11 +144,11 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     //    String codC = String.valueOf(this.tfCodC.getText());
-        Controlador.matricularAlumnoAntiguo(this.tfdniaa.getText(),String.valueOf(this.tfCodC.getText()));
+        Controlador.matricularAlumnoAntiguo(this.tfdniaa.getText(),this.tfCursoAno.getText(),this.tfCursoLetra.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void bBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarActionPerformed
-        Controlador.buscarBorrar(this.tfdniaa.getText());
+        Controlador.buscarBorrar(this.tfdniaa.getText(),this.tfCursoAno.getText(),this.tfCursoLetra.getText());
     }//GEN-LAST:event_bBorrarActionPerformed
 
     /**
@@ -169,7 +192,9 @@ public class AlumnoAntiguo extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField tfCodC;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JTextField tfCursoAno;
+    private javax.swing.JTextField tfCursoLetra;
     private javax.swing.JTextField tfdniaa;
     // End of variables declaration//GEN-END:variables
 }
