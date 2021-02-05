@@ -23,7 +23,7 @@ public class Controlador {
     private static ArrayList<Producto> aListaProductos;
     private static ArrayList<Proveedor> aListaProveedores;
     private static Almacen vAlmacen;
-    
+
     public static void main(String[] args) {
         crearProveedores();
         crearProductos();
@@ -127,16 +127,8 @@ public class Controlador {
         }
     }
 
-    public static void cancelarPanelVenta(JPanel pVenta) {
-        pVenta.setVisible(false);
-    }
-
     public static void llamarPanelVentas(JPanel pVenta) {
         pVenta.setVisible(true);
-    }
-
-    public static void esconderCompra(JPanel pCompra) {
-        pCompra.setVisible(false);
     }
 
     public static void mostrarCompra(JPanel pCompra) {
@@ -147,42 +139,37 @@ public class Controlador {
         if (!uVenta.isEmpty()) {
             int unidadesVenta = Integer.parseInt(uVenta);
             float precioFinalUnitario;
-            precioFinalUnitario = (prd.getPrecioUnitario() * 2)* unidadesVenta ;
+            precioFinalUnitario = (prd.getPrecioUnitario() * 2) * unidadesVenta;
             return precioFinalUnitario;
-        }else
+        } else {
             return 0;
+        }
     }
-    public static void guardarCliente(String tfCliente){
+
+    public static void guardarCliente(String tfCliente) {
         String cliente = tfCliente;
     }
-    
-    public static float descuentoVolumen(JCheckBox cbVolumen,String precioFinalUnitario,String tfUnidades){
-        if(cbVolumen.isSelected()){
-            int unidades=Integer.parseInt(tfUnidades);
-            float precioFinalT=Float.parseFloat(precioFinalUnitario);
-            float importeTotalVentas= (unidades * precioFinalT);
-            float VentaDescuento2= importeTotalVentas - (importeTotalVentas * 0.02f);
-                return VentaDescuento2;
+
+    public static float descuento(JCheckBox cbVolumen, String precioVenta, String tfUnidades, JCheckBox cbProntoP) {
+        float precioV;
+        float descuento = 0;
+        float importe;
+        precioV = Float.parseFloat(precioVenta);
+        
+        if (cbVolumen.isSelected() && cbProntoP.isSelected()) {
+            descuento = precioV * 0.05f;
+        } else if (cbVolumen.isSelected()) {
+            descuento = precioV * 0.02f;
+        } else if (cbProntoP.isSelected()) {
+            descuento = precioV * 0.03f;
         }
-        else
-            return 0;
-            
+        
+        importe = precioV - descuento;
+        return importe;
     }
-    public static float descuentoPP(JCheckBox cbProntoP,String precioFinalUnitario,String tfUnidades){
-        if(cbProntoP.isSelected()){
-            int unidade=Integer.parseInt(tfUnidades);
-            float precioFinalT=Float.parseFloat(precioFinalUnitario);
-            float importeTotalVentas;
-                importeTotalVentas= (unidade * precioFinalT);
-               float VentaDescuento3= importeTotalVentas - (importeTotalVentas * 0.03f);
-                return VentaDescuento3;
-        }
-        else
-            return 0;
-            
-    }
-    public static int restarUnidadesAlStock(String tfUnidades){
-         if (!tfUnidades.isEmpty()) {
+
+    public static int restarUnidadesAlStock(String tfUnidades) {
+        if (!tfUnidades.isEmpty()) {
             int unidades = Integer.parseInt(tfUnidades);
             int unidadesTotal;
             unidadesTotal = prd.getUnidade() - unidades;
@@ -192,6 +179,7 @@ public class Controlador {
             return 0;
         }
     }
+
     public static void salir() {
         vAlmacen.dispose();
         System.exit(0);

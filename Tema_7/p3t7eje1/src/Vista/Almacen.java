@@ -5,6 +5,7 @@
  */
 package Vista;
 
+import Exception.CampoVacio;
 import Modelo.Producto;
 import p3t7eje1.Controlador;
 import static javax.swing.JOptionPane.*;
@@ -54,7 +55,7 @@ public class Almacen extends javax.swing.JFrame {
         pVenta = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        tfPrecioUnitarioVenta = new javax.swing.JTextField();
+        tfPrecioVenta = new javax.swing.JTextField();
         tfCliente = new javax.swing.JTextField();
         jPanel5 = new javax.swing.JPanel();
         cbxVolumen = new javax.swing.JCheckBox();
@@ -262,6 +263,12 @@ public class Almacen extends javax.swing.JFrame {
 
         jLabel8.setText("Cliente");
 
+        tfPrecioVenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tfPrecioVentaActionPerformed(evt);
+            }
+        });
+
         tfCliente.setText(" ");
         tfCliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -328,7 +335,7 @@ public class Almacen extends javax.swing.JFrame {
                                     .addGroup(pVentaLayout.createSequentialGroup()
                                         .addComponent(jLabel7)
                                         .addGap(18, 18, 18)
-                                        .addComponent(tfPrecioUnitarioVenta))
+                                        .addComponent(tfPrecioVenta))
                                     .addGroup(pVentaLayout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -342,7 +349,7 @@ public class Almacen extends javax.swing.JFrame {
                 .addGap(23, 23, 23)
                 .addGroup(pVentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(tfPrecioUnitarioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tfPrecioVenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(20, 20, 20)
                 .addGroup(pVentaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -397,12 +404,21 @@ public class Almacen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void rbVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbVentaActionPerformed
-        Controlador.esconderCompra(this.pCompra);
-        float precioUnitarioVenta = Controlador.llamarPrecioVenta(this.tfUnidades.getText());
-        if (precioUnitarioVenta != 0) {
-            this.tfPrecioUnitarioVenta.setText(String.valueOf(precioUnitarioVenta));
-        } else {
-            showMessageDialog(this, "No si puede vender");
+        try {
+            if (tfUnidades.getText().isEmpty()) {
+                throw new CampoVacio();
+            } else {
+                pCompra.setVisible(false);
+                float precioVenta = Controlador.llamarPrecioVenta(this.tfUnidades.getText());
+                if (precioVenta != 0) {
+                    this.tfPrecioVenta.setText(String.valueOf(precioVenta));
+                    this.tfImporteVenta.setText(String.valueOf(precioVenta));
+                } else {
+                    showMessageDialog(this, "No si puede vender");
+                }
+            }
+        } catch (CampoVacio cv) {
+            showMessageDialog(this, "El campo no puede está vacío");
         }
     }//GEN-LAST:event_rbVentaActionPerformed
 
@@ -411,12 +427,19 @@ public class Almacen extends javax.swing.JFrame {
     }//GEN-LAST:event_tfNombreProductoActionPerformed
 
     private void rbCompraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbCompraActionPerformed
-        Controlador.cancelarPanelVenta(this.pVenta);
-        float precioU = Controlador.mostrarprecioUnitarioCompra(this.tfNombreProducto.getText());
-        if (precioU != 0) {
-            this.tfPrecioUnitarioCompra.setText(String.valueOf(precioU));
-        } else {
-            showMessageDialog(this, "Producto no existe");
+        try {
+            if (tfUnidades.getText().isEmpty()) {
+                throw new CampoVacio();
+            }
+            pVenta.setVisible(false);
+            float precioU = Controlador.mostrarprecioUnitarioCompra(this.tfNombreProducto.getText());
+            if (precioU != 0) {
+                this.tfPrecioUnitarioCompra.setText(String.valueOf(precioU));
+            } else {
+                showMessageDialog(this, "Producto no existe");
+            }
+        } catch (CampoVacio cv) {
+            showMessageDialog(this, "El campo no puede está vacío");
         }
     }//GEN-LAST:event_rbCompraActionPerformed
 
@@ -425,11 +448,19 @@ public class Almacen extends javax.swing.JFrame {
     }//GEN-LAST:event_rbCompraFocusGained
 
     private void tfNombreProductoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tfNombreProductoFocusLost
-        Producto p = Controlador.buscarProducto(this.tfNombreProducto.getText());
-        if (p == null) {
-            showMessageDialog(this, "Producto no encontrado");
-        } else {
-            showMessageDialog(this, "Temos " + p.getUnidade() + " unidades del Producto " + p.getNombre());
+        try {
+            if (tfNombreProducto.getText().isEmpty()) {
+                throw new CampoVacio();
+            } else {
+                Producto p = Controlador.buscarProducto(this.tfNombreProducto.getText());
+                if (p == null) {
+                    showMessageDialog(this, "Producto no encontrado");
+                } else {
+                    showMessageDialog(this, "Temos " + p.getUnidade() + " unidades del Producto " + p.getNombre());
+                }
+            }
+        } catch (CampoVacio cv) {
+            showMessageDialog(this, "El campo no puede está vacío");
         }
     }//GEN-LAST:event_tfNombreProductoFocusLost
 
@@ -441,7 +472,7 @@ public class Almacen extends javax.swing.JFrame {
             } else {
                 showMessageDialog(this, "Compra NO realizada!");
             }
-        }else{
+        } else {
             int unidadesTotal = Controlador.restarUnidadesAlStock(this.tfUnidades.getText());
             if (unidadesTotal != 0) {
                 showMessageDialog(this, "Venta realizada!");
@@ -475,19 +506,24 @@ public class Almacen extends javax.swing.JFrame {
     }//GEN-LAST:event_cbProvedorFocusLost
 
     private void cbxVolumenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxVolumenActionPerformed
-        float importeVenta = Controlador.descuentoVolumen(this.cbxVolumen, this.tfPrecioUnitarioVenta.getText(), this.tfUnidades.getText());
-        if (importeVenta != 0) {
-            this.tfImporteVenta.setText(String.valueOf(importeVenta));
+        float importe = Controlador.descuento(this.cbxVolumen, this.tfPrecioVenta.getText(), this.tfUnidades.getText(),this.cbxProntoP);
+        if (importe != 0) {
+            
+            this.tfImporteVenta.setText(String.valueOf(importe));
         }
 
     }//GEN-LAST:event_cbxVolumenActionPerformed
 
     private void cbxProntoPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxProntoPActionPerformed
-        float importeVenta = Controlador.descuentoPP(this.cbxProntoP, this.tfPrecioUnitarioVenta.getText(), this.tfUnidades.getText());
+        float importeVenta = Controlador.descuento(this.cbxVolumen, this.tfPrecioVenta.getText(), this.tfUnidades.getText(),this.cbxProntoP);
         if (importeVenta != 0) {
             this.tfImporteVenta.setText(String.valueOf(importeVenta));
         }
     }//GEN-LAST:event_cbxProntoPActionPerformed
+
+    private void tfPrecioVentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tfPrecioVentaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tfPrecioVentaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -552,7 +588,7 @@ public class Almacen extends javax.swing.JFrame {
     private javax.swing.JTextField tfImporteVenta;
     private javax.swing.JTextField tfNombreProducto;
     private javax.swing.JTextField tfPrecioUnitarioCompra;
-    private javax.swing.JTextField tfPrecioUnitarioVenta;
+    private javax.swing.JTextField tfPrecioVenta;
     private javax.swing.JTextField tfUnidades;
     // End of variables declaration//GEN-END:variables
 }
