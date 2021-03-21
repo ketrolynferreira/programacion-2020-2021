@@ -15,8 +15,8 @@ public class BaseDeDatos {
         {
             Class.forName("com.mysql.jdbc.Driver");
             
-                String bd = "bdt9p1e2";
-                String url = "jdbc:mysql://localhost:3307/"+bd;
+                String bd = "bdt8p1e2";
+                String url = "jdbc:mysql://localhost:33076"+bd;
                 String login = "root";
                 String password = "";
             

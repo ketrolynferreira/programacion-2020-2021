@@ -237,11 +237,11 @@ public class VentanaAcontecimiento extends javax.swing.JDialog {
 
     public void llenarcombo()
     {
-       jcLugar.addItem("Artium");
-       jcLugar.addItem("Buesa Arena");
-       jcLugar.addItem("Iradier Arena");
        jcLugar.addItem("Mendizorroza");
+       jcLugar.addItem("Artium");
+       jcLugar.addItem("Iradier Arena");
        jcLugar.addItem("Teatro Principal");
+       jcLugar.addItem("Buesa Arena");
     }
     
     private void bSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bSalirActionPerformed
