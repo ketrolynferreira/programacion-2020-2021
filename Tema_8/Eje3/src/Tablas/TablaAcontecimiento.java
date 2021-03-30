@@ -16,7 +16,7 @@ public class TablaAcontecimiento {
     //Practica 2
         public void insertar(Acontecimiento a) throws Exception
         {
-            String plantilla = "INSERT INTO tAcontecimientos VALUES (?,?,?,?,?,?)";
+            String plantilla = "INSERT INTO tacontecimientos VALUES (?,?,?,?,?,?)";
                 PreparedStatement ps = con.prepareStatement(plantilla);
                 ps.setString(1, a.getNombre());
                 ps.setString(2, a.getLugar());
@@ -33,7 +33,7 @@ public class TablaAcontecimiento {
 
         public Acontecimiento buscarnombre (String nombre) throws Exception
         {
-            String plantilla = "SELECT * FROM tAcontecimientos WHERE nombre =?";
+            String plantilla = "SELECT * FROM tacontecimientos WHERE nombre =?";
                 PreparedStatement ps = con.prepareStatement(plantilla);
                 ps.setString(1, nombre);
 
@@ -57,7 +57,7 @@ public class TablaAcontecimiento {
         public Acontecimiento buscarporlugaruno (String lugar,LocalDate fecha,LocalTime horai) throws Exception
         {
 
-            String plantilla = "SELECT * FROM tAcontecimientos WHERE lugar =? && fecha =? && hora_ini<=? && hora_fin>=?";
+            String plantilla = "SELECT * FROM tacontecimientos WHERE lugar =? && fecha =? && hora_ini<=? && hora_fin>=?";
                 PreparedStatement ps = con.prepareStatement(plantilla);
                 ps.setString(1, lugar);
                 ps.setString(2, fecha.toString());
@@ -83,7 +83,7 @@ public class TablaAcontecimiento {
 
         public Acontecimiento buscarporlugardos (String lugar,LocalDate fecha,LocalTime horai,LocalTime horaf) throws Exception
         {   
-            String plantilla = "SELECT * FROM tAcontecimientos WHERE lugar =? && fecha =? && hora_ini>=? && hora_ini<=?";
+            String plantilla = "SELECT * FROM tacontecimientos WHERE lugar =? && fecha =? && hora_ini>=? && hora_ini<=?";
                PreparedStatement ps = con.prepareStatement(plantilla);
                 ps.setString(1, lugar);
                 ps.setString(2, fecha.toString());
@@ -112,7 +112,7 @@ public class TablaAcontecimiento {
         {
             ArrayList<Acontecimiento> lista = new ArrayList();
             
-            String plantilla = "SELECT * FROM tAcontecimientos";
+            String plantilla = "SELECT * FROM tacontecimientos";
                 PreparedStatement ps = con.prepareStatement(plantilla);
                 
             ResultSet resultado = ps.executeQuery();
@@ -134,7 +134,7 @@ public class TablaAcontecimiento {
        
         public void borrartodo() throws Exception
         {
-            String plantilla = "DELETE FROM tAcontecimientos";
+            String plantilla = "DELETE FROM tacontecimientos";
                PreparedStatement ps = con.prepareStatement(plantilla);
                     
             ps.executeUpdate();
@@ -143,7 +143,7 @@ public class TablaAcontecimiento {
         
         public void borrarnombre(String nombre) throws Exception
         {
-            String plantilla = "DELETE FROM tAcontecimientos WHERE nombre =?";
+            String plantilla = "DELETE FROM tacontecimientos WHERE nombre =?";
                 PreparedStatement ps = con.prepareStatement(plantilla);
                 ps.setString(1, nombre);
                 

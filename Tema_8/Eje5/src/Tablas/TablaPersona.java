@@ -13,7 +13,7 @@ public class TablaPersona {
     
     public Persona buscarp(String dni) throws Exception
     {
-        String plantilla = "SELECT * FROM tPersonas WHERE dni = ?";
+        String plantilla = "SELECT * FROM tpersonas WHERE dni = ?";
             PreparedStatement ps = con.prepareStatement(plantilla);
             ps.setString(1, dni);
             
@@ -36,7 +36,7 @@ public class TablaPersona {
     
     public void insertar(Persona p) throws Exception
     {
-        String plantilla = "INSERT INTO tPersonas VALUES (?,?,?,?,?)";
+        String plantilla = "INSERT INTO tpersonas VALUES (?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(plantilla);
             ps.setString(1, p.getDni());
             ps.setString(2, p.getNombre());

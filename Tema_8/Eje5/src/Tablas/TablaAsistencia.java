@@ -12,7 +12,7 @@ public class TablaAsistencia {
     
     public Integer contarasistencia(String nombre) throws Exception
     {
-        String plantilla = "SELECT COUNT(*) FROM tAsistencias WHERE evento = ?";
+        String plantilla = "SELECT COUNT(*) FROM tasistencias WHERE evento = ?";
             PreparedStatement ps = con.prepareStatement(plantilla);
             ps.setString(1, nombre);
             
@@ -30,7 +30,7 @@ public class TablaAsistencia {
     
     public boolean buscari(String evento,String persona) throws Exception
     {
-        String plantilla = "SELECT * FROM tAsistencias WHERE evento = ? && persona = ?";
+        String plantilla = "SELECT * FROM tasistencias WHERE evento = ? && persona = ?";
             PreparedStatement ps = con.prepareStatement(plantilla);
             ps.setString(1, evento);
             ps.setString(2, persona);
@@ -46,7 +46,7 @@ public class TablaAsistencia {
     
     public void insertar(String evento,String persona) throws Exception
     {
-        String plantilla = "INSERT INTO tAsistencias VALUES (?,?)";
+        String plantilla = "INSERT INTO tasistencias VALUES (?,?)";
             PreparedStatement ps = con.prepareStatement(plantilla);
             ps.setString(1, evento);
             ps.setString(2, persona);
